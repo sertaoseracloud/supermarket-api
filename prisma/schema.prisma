@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  stock       Int
+  notas     Nota[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Funcionario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cargo     String
+  salario   Float
+  notas     Nota[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cliente {
+  id               Int        @id @default(autoincrement())
+  nome             String
+  email            String     @unique
+  telefone         String?
+  fidelidade       Fidelidade?
+  notas            Nota[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Fidelidade {
+  id          Int      @id @default(autoincrement())
+  clienteId   Int      @unique
+  pontos      Int      @default(0)
+  status      String   @default("Bronze") // Pode ser Bronze, Prata, Ouro etc
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+}
+
+model Nota {
+  id             Int      @id @default(autoincrement())
+  funcionarioId  Int
+  productId      Int
+  clienteId      Int      // novo campo
+  quantidade     Int
+  valorTotal     Float
+  data           DateTime @default(now())
+
+  funcionario    Funcionario @relation(fields: [funcionarioId], references: [id])
+  product        Product     @relation(fields: [productId], references: [id])
+  cliente        Cliente     @relation(fields: [clienteId], references: [id])
+}
+
+
