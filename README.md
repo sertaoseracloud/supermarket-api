@@ -1,7 +1,3 @@
-Com certeza! Segue uma sugestão de **documentação de enunciado** para um projeto de modernização de sistema, com base no cenário apresentado:
-
----
-
 # **Enunciado do Projeto de Modernização de Sistema**
 
 ## **Contexto Geral**
